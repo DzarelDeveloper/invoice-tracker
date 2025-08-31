@@ -18,19 +18,14 @@ git clone https://github.com/DzarelDeveloper/invoice-tracker.git
 cd invoice-tracker
 ```
 
-2. Install dependencies:
-```bash
-npm install
+2. Open Your Vscode
+```
+Code .
 ```
 
-3. Run development server:
-```bash
-npm run dev
+3. Go Live To Your browser
 ```
-
-4. Build for production:
-```bash
-npm run build
+Use your favorite browser
 ```
 
 ## How It Works
