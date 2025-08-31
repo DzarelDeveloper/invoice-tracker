@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">
+                📋 Invoice Tracker
+            </h1>
+            <p class="subtitle">Kelola invoice Anda dengan mudah dan profesional</p>
+        </header>
+
+        <!-- Dashboard Cards -->
+        <section class="overview-section">
+            <div class="overview-header">
+                <h2>📊 Overview</h2>
+                <p>Ringkasan lengkap status invoice Anda</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card completed">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-content">
+                        <h3 id="completed-count">0</h3>
+                        <p>Completed</p>
+                        <span class="stat-amount" id="completed-amount">Rp 0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card in-progress">
+                    <div class="stat-icon">🔄</div>
+                    <div class="stat-content">
+                        <h3 id="progress-count">0</h3>
+                        <p>In Progress</p>
+                        <span class="stat-amount" id="progress-amount">Rp 0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card not-paid">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-content">
+                        <h3 id="unpaid-count">0</h3>
+                        <p>Not Paid</p>
+                        <span class="stat-amount" id="unpaid-amount">Rp 0</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card total">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <h3 id="total-count">0</h3>
+                        <p>Total Invoice</p>
+                        <span class="stat-amount" id="total-amount">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Rata-rata Invoice</span>
+                    <span class="quick-stat-value" id="average-amount">Rp 0</span>
+                </div>
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Invoice Terbaru</span>
+                    <span class="quick-stat-value" id="latest-invoice">-</span>
+                </div>
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Total Pending</span>
+                    <span class="quick-stat-value" id="pending-amount">Rp 0</span>
+                </div>
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Jatuh Tempo 7 Hari</span>
+                    <span class="quick-stat-value" id="due-soon-count">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Invoice Form -->
+        <section class="form-section">
+            <div class="form-container">
+                <h2>Tambah Invoice Baru</h2>
+                <form id="invoice-form" class="invoice-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoice-number">Nomor Invoice</label>
+                            <input type="text" id="invoice-number" required placeholder="INV-001" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="client-name">Nama Client</label>
+                            <input type="text" id="client-name" required placeholder="Nama Klien/Perusahaan">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currency">Mata Uang</label>
+                            <select id="currency" required>
+                                <option value="IDR">IDR - Rupiah</option>
+                                <option value="USD">USD - Dollar</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="invoice-amount">Jumlah</label>
+                            <input type="number" id="invoice-amount" required placeholder="1000000" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoice-date">Tanggal Invoice</label>
+                            <input type="date" id="invoice-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="due-date">Tanggal Jatuh Tempo</label>
+                            <input type="date" id="due-date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoice-status">Status</label>
+                            <select id="invoice-status" required>
+                                <option value="">Pilih Status</option>
+                                <option value="completed">✅ Completed</option>
+                                <option value="in-progress">🔄 In Progress</option>
+                                <option value="not-paid">❌ Not Paid</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Catatan</label>
+                        <textarea id="notes" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">
+                            <span>➕</span>
+                            Tambah Invoice
+                        </button>
+                        <button type="button" id="clear-form" class="btn-secondary">
+                            <span>🗑️</span>
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Payment Reminders Section -->
+        <section class="reminders-section">
+            <div class="reminders-container">
+                <h2>📅 Pengingat Pembayaran</h2>
+                <div class="reminders-grid" id="reminders-grid">
+                    <!-- Reminders will be added here dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Invoice Table -->
+        <section class="table-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>Daftar Invoice</h2>
+                    <div class="table-actions">
+                        <div class="filter-group">
+                            <select id="status-filter">
+                                <option value="">Semua Status</option>
+                                <option value="completed">✅ Completed</option>
+                                <option value="in-progress">🔄 In Progress</option>
+                                <option value="not-paid">❌ Not Paid</option>
+                            </select>
+                        </div>
+                        <button id="clear-all" class="btn-danger">
+                            <span>🗑️</span>
+                            Hapus Semua
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-wrapper">
+                    <table id="invoice-table" class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Nomor Invoice</th>
+                                <th>Client</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoice-tbody">
+                            <tr class="empty-state">
+                                <td colspan="6">
+                                    <div class="empty-message">
+                                        <span class="empty-icon">📋</span>
+                                        <p>Belum ada invoice. Tambahkan invoice pertama Anda!</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ Konfirmasi Hapus</h3>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus invoice ini?</p>
+                <div class="invoice-details" id="delete-invoice-details"></div>
+            </div>
+            <div class="modal-actions">
+                <button id="confirm-delete" class="btn-danger">
+                    <span>🗑️</span>
+                    Ya, Hapus
+                </button>
+                <button id="cancel-delete" class="btn-secondary">
+                    <span>❌</span>
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
